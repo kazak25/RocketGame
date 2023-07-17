@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,29 +12,32 @@ public class RocketController : MonoBehaviour
     private bool isJumping = false;
     private float horizontalMovement = 0f;
 
-
     void Update()
     {
+        horizontalMovement = 0f;
         if (Input.touchSupported)
         {
             if (Input.touchCount > 0)
             {
-                Touch touch = Input.GetTouch(0);
+                Touch[] touches = Input.touches;
 
-                if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary)
+                foreach (Touch touch in touches)
                 {
-                    isJumping = true;
-                    rb.velocity = Vector2.up * _jumpForce;
-                }
-                else if (touch.phase == TouchPhase.Ended)
-                {
-                    isJumping = false;
-                    horizontalMovement = 0f;
-                }
-                else if (touch.phase == TouchPhase.Moved)
-                {
-                    horizontalMovement = touch.deltaPosition.x * Time.deltaTime;
-                    horizontalMovement = Mathf.Clamp(horizontalMovement, -1f, 1f);
+                    if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary)
+                    {
+                        isJumping = true;
+                        rb.velocity = Vector2.up * _jumpForce;
+                    }
+                    else if (touch.phase == TouchPhase.Ended)
+                    {
+                        isJumping = false;
+                        
+                        //horizontalMovement = 0f;
+                    }
+                    else if (touch.phase == TouchPhase.Moved)
+                    {
+                        horizontalMovement = touch.deltaPosition.normalized.x * _horizontalMoveSpeed;
+                    }
                 }
             }
         }
@@ -45,7 +47,7 @@ public class RocketController : MonoBehaviour
             {
                 isJumping = true;
                 rb.velocity = Vector2.up * _jumpForce;
-                horizontalMovement = Input.GetAxis("Horizontal");
+                horizontalMovement = Input.GetAxis("Horizontal") * _horizontalMoveSpeed;
             }
             else
             {
@@ -58,7 +60,7 @@ public class RocketController : MonoBehaviour
     {
         if (isJumping)
         {
-            Vector2 movement = new Vector2(horizontalMovement * _horizontalMoveSpeed, rb.velocity.y);
+            Vector2 movement = new Vector2(horizontalMovement, rb.velocity.y);
             rb.velocity = movement;
         }
     }
@@ -67,4 +69,5 @@ public class RocketController : MonoBehaviour
     {
         OnRocketCrashed?.Invoke();
     }
+    
 }
