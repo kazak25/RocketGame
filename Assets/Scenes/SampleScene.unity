@@ -411,6 +411,11 @@ CircleCollider2D:
   m_Offset: {x: -0.34, y: 0}
   serializedVersion: 2
   m_Radius: 0.64
+--- !u!50 &509706858 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 5132780093185042524, guid: 9976a5f1522967547bdfa2b2afa901fe, type: 3}
+  m_PrefabInstance: {fileID: 1340857354}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +726,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket
       objectReference: {fileID: 0}
+    - target: {fileID: 5132780093185042527, guid: 9976a5f1522967547bdfa2b2afa901fe, type: 3}
+      propertyPath: _rb
+      value: 
+      objectReference: {fileID: 509706858}
     - target: {fileID: 5132780093185042527, guid: 9976a5f1522967547bdfa2b2afa901fe, type: 3}
       propertyPath: _jumpForce
       value: 15
