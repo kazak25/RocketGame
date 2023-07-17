@@ -8,7 +8,6 @@ public class MapPiece : MonoBehaviour
     public Action EndReached;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Мы тут");
         EndReached?.Invoke();
     }
 }
