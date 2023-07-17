@@ -7,9 +7,9 @@ public class RocketController : MonoBehaviour
 
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _horizontalMoveSpeed = 5f;
-    [SerializeField ]private Rigidbody2D _rb;
-    
-    private bool isJumping = false;
+    [SerializeField] private Rigidbody2D _rb;
+
+    private bool _isJumping = false;
     private float _horizontalMovement = 0f;
 
     void Update()
@@ -25,12 +25,12 @@ public class RocketController : MonoBehaviour
                 {
                     if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary)
                     {
-                        isJumping = true;
+                        _isJumping = true;
                         _rb.velocity = Vector2.up * _jumpForce;
                     }
                     else if (touch.phase == TouchPhase.Ended)
                     {
-                        isJumping = false;
+                        _isJumping = false;
                     }
                     else if (touch.phase == TouchPhase.Moved)
                     {
@@ -43,20 +43,20 @@ public class RocketController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                isJumping = true;
+                _isJumping = true;
                 _rb.velocity = Vector2.up * _jumpForce;
                 _horizontalMovement = Input.GetAxis("Horizontal") * _horizontalMoveSpeed;
             }
             else
             {
-                isJumping = false;
+                _isJumping = false;
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (isJumping)
+        if (_isJumping)
         {
             Vector2 movement = new Vector2(_horizontalMovement, _rb.velocity.y);
             _rb.velocity = movement;
@@ -67,5 +67,4 @@ public class RocketController : MonoBehaviour
     {
         OnRocketCrashed?.Invoke();
     }
-    
 }
